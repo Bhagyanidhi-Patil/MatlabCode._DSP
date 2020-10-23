@@ -1,0 +1,59 @@
+clc;
+clear all;
+close all;
+x=input('Enter the sequence=');
+N=input('Enter the value of N=');
+m=input('Enter the number of shifts:');
+k=0:N-1;
+n=0:N-1;
+
+Y = fft(x,N);
+disp('DFT of the input sequence x(n)is')
+disp(Y)
+
+subplot(3,2,1)
+stem(k,abs(Y))
+xlabel("K")
+ylabel("amplitude")
+title("Magitude of DFT of x(n)")
+
+subplot(3,2,2)
+stem(k,angle(Y))
+xlabel("K")
+ylabel("angle")
+title("Phase of DFT of x(n)")
+
+
+c=circshift(Y,m);
+disp('Circular frequency shifted sequence Y((k-m))N')
+disp(c)
+subplot(3,2,3)
+stem(k,abs(c))
+xlabel("K")
+ylabel("amplitude")
+title("Magitude of Circular frequency shifted sequence Y((k-m))N")
+subplot(3,2,4)
+stem(k,angle(c))
+xlabel("K")
+ylabel("angle in radians")
+title("Phase of Circular frequency shifted sequence Y((k-m))N")
+
+ for n=0:N-1;
+     y1(n+1)=x(n+1)*exp(-1i*2*pi*n*m/N);
+ end
+ 
+ disp('y(n)*W^-mn using property')
+ disp(y1)
+ 
+subplot(3,2,5)
+stem(k,abs(y1))
+xlabel("n")
+ylabel("amplitude")
+title("Magitude of x(n)*W^-mk")
+subplot(3,2,6)
+stem(k,angle(y1))
+xlabel("n")
+ylabel("angle in radians")
+title("Phase of x(n)*W^-mk")
+
+
