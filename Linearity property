@@ -1,0 +1,75 @@
+clc
+close all
+
+%dft using fft algorithm
+
+x1 = input('Enter sequence 1: ');
+x2 = input('Enter sequence 2: ');
+N = input('Enter the value of N ');
+k = 0:N-1;
+X1 = fft(x1);
+subplot(4,2,1);
+stem(k,abs(X1),'b','linewidth',1.5);
+axis([0 5 0 15]);
+xlabel('k');
+ylabel('|X1|')
+title('Magnitude of X1');
+subplot(4,2,2);
+stem(k,angle(X1),'b','linewidth',1.5);
+xlabel('k');
+ylabel('Angle(X1)')
+title('Phase of X1');
+disp('dft of sequence 1 ');
+disp(X1);
+X2 = fft(x2);
+subplot(4,2,3);
+stem(k,abs(X2),'b','linewidth',1.5);
+axis([0 5 0 15]);
+xlabel('k');
+ylabel('|X2|')
+title('Magnitude of X2');
+subplot(4,2,4);
+stem(k,angle(X2),'b','linewidth',1.5);
+xlabel('k');
+ylabel('Angle(X2)')
+title('Phase of X2');
+disp('dft of sequence 2 ');
+disp(X2);
+
+%asking for the amplitude
+
+a = 2;
+b = 3;
+x1 = a*x1;
+x2 = b*x2;
+x3 = x1+x2;
+X3 = fft(x3);
+disp('dft of x1+x2 is ');
+subplot(4,2,7);
+stem(k,abs(X3),'b','linewidth',1.5);
+axis([0 5 0 50]);
+xlabel('k');
+ylabel('|X3|')
+title('Magnitude of X3');
+subplot(4,2,8);
+stem(k,angle(X3),'b','linewidth',1.5);
+xlabel('k');
+ylabel('Angle(X3)')
+title('Phase of X3');
+disp(X3);
+X1 = a*X1;
+X2 = b*X2;
+X = X1+X2;
+subplot(4,2,5);
+stem(k,abs(X),'b','linewidth',1.5);
+axis([0 5 0 50]);
+xlabel('k');
+ylabel('|X|')
+title('Magnitude of X');
+subplot(4,2,6);
+stem(k,angle(X),'b','linewidth',1.5);
+xlabel('k');
+ylabel('Angle(X)')
+title('Phase of X');
+disp('sum of X1 and X2 is ');
+disp(X);
