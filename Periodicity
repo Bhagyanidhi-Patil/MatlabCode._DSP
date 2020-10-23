@@ -1,0 +1,55 @@
+clear all;
+close all;
+clc;
+
+s = input("Enter the input sequence: ");
+
+N = length(s);
+n = 1:N;
+k = n;
+x = n-1;
+widthOfLine = 1.5;
+
+
+DFT(k) = fft(s(n));
+shiftedDFT(k) = fft(s(mod(N+n,N+1)+1));
+
+disp("DFT of x(n): ");
+disp(DFT.');
+
+disp("DFT of x(n+N): ");
+disp(shiftedDFT.');
+
+figure('Name','Using builtin matlab functions !')
+
+subplot(2,2,1);
+Y = abs(DFT.');
+stem(x, Y, "lineWidth", widthOfLine);
+setAxisLimits(axis);
+setPlotAttributes("n \rightarrow", "Amplitude", "DFT of $$ x(n) $$");
+text(x, Y, strcat("\leftarrow", num2str(round(Y, 1))));
+grid on;
+
+subplot(2, 2, 2);
+Y = angle(round(DFT.',5))*180/pi;
+stem(x, Y, "lineWidth", widthOfLine);
+setAxisLimits(axis);
+setPlotAttributes("n \rightarrow", "Phase (°)", "DFT of $$ x(n) $$");
+text(x, Y, strcat("\leftarrow", num2str(round(Y, 1))));
+grid on;
+
+subplot(2,2,3);
+Y = abs(shiftedDFT.');
+stem(x, Y, "lineWidth", widthOfLine);
+setAxisLimits(axis);
+setPlotAttributes("n \rightarrow", "Amplitude", "DFT of $$ x(n+N) $$");
+text(x, Y, strcat("\leftarrow", num2str(round(Y, 1))));
+grid on;
+
+subplot(2, 2, 4);
+Y = angle(round(shiftedDFT.',5))*180/pi;
+stem(x, Y, "lineWidth", widthOfLine);
+setAxisLimits(axis);
+setPlotAttributes("n \rightarrow", "Phase (°)", "DFT of $$ x(n+N) $$");
+text(x, Y, strcat("\leftarrow", num2str(round(Y, 1))));
+grid on;
