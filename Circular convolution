@@ -1,0 +1,71 @@
+clc;
+clear all;
+close all;
+x1=input('Enter sequence 1:');
+x2=input('Enter sequence 2:');
+N=input('Enter the value of N:');
+n1=length(x1);
+n2=length(x2);
+x1=[x1 zeros(1,N-n1)];    
+x2=[x2 zeros(1,N-n2)];
+n=length(x1);
+
+X1= fft(x1,N);
+disp('DFT of the sequence x1(n)')
+disp(X1)
+subplot(3,2,1);
+stem(abs(X1));
+xlabel('N->');
+ylabel('amplitude');
+title('Magnitude of DFT sequence 1');
+subplot(3,2,2);
+stem(angle(X1));
+xlabel('N->');
+ylabel('amplitude');
+title('Phase of DFT sequence 1');
+
+X2= fft(x2,N);
+disp('DFT of the  sequence x2(n)');
+disp(X2)
+subplot(3,2,3);
+stem(abs(X2));
+xlabel('N->');
+ylabel('amplitude');
+title('Magnitude of DFT sequence 2');
+subplot(3,2,4);
+stem(angle(X2));
+xlabel('N->');
+ylabel('amplitude');
+title('Magnitude of DFT sequence 2');
+
+
+%frequency domain
+
+Y=X1.*X2
+y1=ifft(Y)
+disp('Circular convolution in frequency domain')
+disp(y1);
+subplot(3,2,5)
+stem(y1)
+xlabel("N value")
+ylabel("amplitude")
+title("Circular convolution in frequency domain")
+
+
+%time domain using cconv
+x=[x1 zeros(1,N-n1)];
+h=[x2 zeros(1,N-n2)];
+y=zeros(1,N);
+for n=1:N
+    for m=1:N
+        j=(mod(n-m,N)+1);
+        y(n)=y(n)+x(m)*h(j);
+    end
+end
+disp('Circular convolution in time domain without using cconv')
+disp(y);
+subplot(3,2,6)
+stem(y)
+xlabel("N value")
+ylabel("amplitude")
+title("Circular convolution in time domain"); 
