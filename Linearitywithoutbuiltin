@@ -1,0 +1,155 @@
+clc;
+clear all;
+close all;
+
+inputseq1 = input("Enter the sequence");
+inputseq2 = input("Enter the sequence");
+%nvalues = input("Enter the input time period")
+N = input("Enter the DFT poit to be calculated");
+%Nvalue = input("enter the total number of DfT to be calculated")
+DFT1 = FindDFT(inputseq1);
+DFT2 = FindDFT(inputseq2);
+DFT = DFT2+DFT1;
+DFTN = FindDFT(inputseq1+inputseq2);
+disp(strcat(['DFT of sequence 1: x1(n)']));
+disp(round(DFT1, 3));
+disp(strcat(['DFT of sequence 2: x2(n)']));
+disp(round(DFT2, 3));
+disp(strcat(['DFT of sequence ax1(n)+bx2(2): x(n)']));
+disp(round(DFTN, 3));
+
+
+hold on
+subplot(4,1,1);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFT1), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("DFT1 Samples=x1(n)")
+for index = 0:N-1
+    text((index), abs(DFT1(index+1)), strcat('\rightarrow', num2str(abs(DFT1(index+1)))));
+end
+hold on
+subplot(4,1,2);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFT2), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("DFT2 Samples ")
+for index = 0:N-1
+    text((index), abs(DFT2(index+1)), strcat('\rightarrow', num2str(abs(DFT2(index+1)))));
+end
+hold on
+subplot(4,1,3);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFT), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("x(1)+x(2) DFT Samples")
+for index = 0:N-1
+    text((index), abs(DFT(index+1)), strcat('\rightarrow', num2str(abs(DFT(index+1)))));
+end
+hold on
+subplot(4,1,4);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFTN), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("DFT of xn = x1+x2 ")
+for index = 0:N-1
+    text((index), abs(DFTN(index+1)), strcat('\rightarrow', num2str(abs(DFTN(index+1)))));
+end
+figure(2)
+subplot(4,1,1)
+stem(linspace(0,N-1,N),angle(DFT1),"lineWidth",1);
+ylabel("Angle")
+xlabel("k");
+title("X1(n) signal DFT phase")
+for index = 0:N-1
+    text((index), angle(DFT1(index+1)), strcat('\rightarrow', num2str(round(angle(DFT1(index+1))*180/pi)), '°'));
+end
+subplot(4,1,2)
+stem(linspace(0,N-1,N),angle(DFT2),"lineWidth",1);
+ylabel("Angle")
+xlabel("k");
+title("X2(n) signal dft phase")
+for index = 0:N-1
+    text((index), angle(DFT2(index+1)), strcat('\rightarrow', num2str(round(angle(DFT2(index+1))*180/pi)), '°'));
+end
+subplot(4,1,3)
+stem(linspace(0,N-1,N),angle(DFT),"lineWidth",1);
+ylabel("Angle")
+xlabel("k");
+title("x1(n)+x2(n) phase")
+for index = 0:N-1
+    text((index), angle(DFT(index+1)), strcat('\rightarrow', num2str(round(angle(DFT(index+1))*180/pi)), '°'));
+end
+subplot(4,1,4)
+stem(linspace(0,N-1,N),angle(DFTN),"lineWidth",1);
+ylabel("Angle")
+xlabel("k");
+title("x(n) Phase of DFT signal")
+for index = 0:N-1
+    text((index), angle(DFTN(index+1)), strcat('\rightarrow', num2str(round(angle(DFTN(index+1))*180/pi)), '°'));
+end
+axisData = axis;
+axisLength = axisData(2) - axisData(1);
+axisHeight = axisData(4) - axisData(3);
+padding = 0.1; % Relative to the overall output
+axis([axisData(1)-padding*axisLength axisData(2)+padding*axisLength axisData(3)-padding*axisHeight axisData(4)+padding*axisHeight])
+
+
+%using fft built in function
+x1 = fft(inputseq1)
+x2 = fft(inputseq2)
+xn = fft(inputseq1+inputseq2)
+sum = x1+x2
+figure(3)
+hold on
+subplot(4,1,1);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFT1), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("DFT1 Samples=x1(n)")
+for index = 0:N-1
+    text((index), abs(x1(index+1)), strcat('\rightarrow', num2str(abs(x1(index+1)))));
+end
+hold on
+subplot(4,1,2);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFT1), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("DFT1 Samples=x1(n)")
+for index = 0:N-1
+    text((index), abs(x2(index+1)), strcat('\rightarrow', num2str(abs(x2(index+1)))));
+end
+hold on
+subplot(4,1,3);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFT1), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("DFT1 Samples=x1(n)")
+for index = 0:N-1
+    text((index), abs(sum(index+1)), strcat('\rightarrow', num2str(abs(sum(index+1)))));
+end
+hold on
+subplot(4,1,4);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFT1), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("DFT1 Samples=x1(n)")
+for index = 0:N-1
+    text((index), abs(xn(index+1)), strcat('\rightarrow', num2str(abs(xn(index+1)))));
+end
