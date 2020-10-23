@@ -1,0 +1,90 @@
+clc 
+clear all
+close all
+n = input('Enter the sequence');
+N = length(n)
+m = input('Enter number of shift');
+DFT1 =FindDFT(n);
+S = circshift(n,m)
+DFTofShift = FindDFT(S)
+k =0:N-1;
+a=exp(-1i*((2*pi)/N).*k*m)
+prperty = DFT1.*a
+figure(1);
+subplot(4,1,1);
+hold on
+stem(k,n);
+subplot(4,1,2);
+title("Magnitude of input sequence");
+hold on
+stem(k,S);
+hold on
+title("Magnitude of shifted sequence");
+subplot(4,1,3);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFT1), "lineWidth", 1);
+ylabel("Magnitude");
+xlabel("k");
+title("DFT Samples over a DTFT signal");
+for index = 0:N-1
+    text((index), abs(DFT1(index+1)), strcat('\rightarrow', num2str(abs(DFT1(index+1)))));
+end
+
+subplot(4,1,4);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(DFTofShift), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("DFT Samples over a DTFT signal")
+for index = 0:N-1
+    text((index), abs(DFTofShift(index+1)), strcat('\rightarrow', num2str(abs(DFTofShift(index+1)))));
+end
+
+%using built in function
+dft = fft(n)
+S1 = circshift(n,2)
+DFTofShift1 = FindDFT(S1)
+k =0:N-1;
+a=exp(-1i*((2*pi)/N).*k*m);
+DFT2=dft.*a;
+figure(2);
+subplot(3,2,1);
+hold on
+stem(0:N-1,n);
+title("Magnitude of input sequence");
+subplot(3,2,2);
+hold on
+stem(0:N-1,angle(n));
+title("phase of input sequence");
+subplot(3,2,3);
+hold on
+stem(0:N-1,S1);
+title("Magnitude of shifted sequence");
+hold on
+subplot(3,2,4);
+hold on
+stem(0:N-1,angle(S1));
+title("phase of input sequence");
+subplot(3,2,5);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),abs(dft), "lineWidth", 1);
+ylabel("Magnitude");
+xlabel("k");
+title("MAgnitude of X(K)");
+for index = 0:N-1
+    text((index), abs(dft(index+1)), strcat('\rightarrow', num2str(abs(dft(index+1)))));
+end
+
+subplot(3,2,6);
+%plot(linspace(0,N,500),abs(DTFT), "lineWidth", 1);
+hold on;
+stem(linspace(0,N-1,N),angle(dft), "lineWidth", 1);
+ylabel("Magnitude")
+xlabel("k");
+title("phase of X(K)")
+for index = 0:N-1
+    text((index), abs(DFT2(index+1)), strcat('\rightarrow', num2str(abs(DFT2(index+1)))));
+end
