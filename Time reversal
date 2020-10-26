@@ -1,0 +1,74 @@
+clc;
+clear all;
+close all;
+
+xn=input("Enter the sequence");
+N=length(xn);
+disp("DFT of sequence x(n)");
+x=0;
+X=[];
+for k=0:N-1
+    for n=0:N-1
+        x= x+xn(n+1)*exp(-1j*2*pi*n*k/N);
+    end
+X=[X x];
+x=0;
+end
+
+disp(X);
+n=0:N-1;
+y=zeros(1,N);
+
+for n=0:0
+    y(n+1)=xn(n+1);
+end
+for m=1:N-1
+    y(m+1)=xn(N-m+1);
+end
+disp('Time reversal sequence x(-n)');
+disp(y);
+
+Y=fft(y);
+disp("DFT of time reversed signal");
+disp(Y);
+
+S=conj(X);
+disp('Conjugate of X(k)');
+disp(S);
+
+subplot(3,2,1);
+stem(abs(X));
+title('Magnitude of dft of x(n)');
+xlabel('N-->');
+ylabel('amplitude');
+subplot(3,2,2);
+stem(angle(X));
+title('Phase of dft of x(n)');
+xlabel('N-->');
+ylabel('angle');
+subplot(3,2,3);
+stem(abs(Y));
+title('Magnitude of dft of x(-n)');
+xlabel('N-->');
+ylabel('amplitude');
+subplot(3,2,4);
+stem(angle(Y));
+title('Phase of dft of x(-n)');
+xlabel('N-->');
+ylabel('angle');
+subplot(3,2,5);
+stem(abs(S));
+title('Magnitude of conjugate of Xk');
+xlabel('N-->');
+ylabel('amplitude');
+subplot(3,2,6);
+stem(angle(S));
+title('Phase of conjugate of Xk');
+xlabel('N-->');
+ylabel('angle');
+
+
+
+
+
+
