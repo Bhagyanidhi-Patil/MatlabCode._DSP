@@ -9,32 +9,34 @@ x1_n=input('Enter the first sequence');
 x2_n=input('Enter the second sequence');
 N=length(x1_n);
 M=length(x2_n);
+
+
+subplot(3,1,1);
+stem(x1_n);
+title('x1(n)');
+xlabel('N-->');
+ylabel('amplitude');
+subplot(3,1,2);
+stem(x2_n);
+title('x2(n)');
+xlabel('N-->');
+ylabel('amplitude');
+
 S=N+M-1;
 X1_K=fft(x1_n,S);
 X2_K=fft(x2_n,S);
 X3_K=X1_K.*X2_K;
 x3_n=ifft(X3_K);
 
-disp('DFT of X1_K');
-disp(X1_K);
-disp('DFT of X2_K');
-disp(X2_K);
+disp('x1(n)');
+disp(x1_n);
+disp('x2(n)');
+disp(x2_n);
 disp('Linear convolution using circular convolution ');
 disp(x3_n);
 
-subplot(3,1,1);
-stem(abs(X1_K));
-title(' DFT of x1(n)');
-xlabel('N-->');
-ylabel('amplitude');
-subplot(3,1,2);
-stem(abs(X2_K));
-title(' DFT of x2(n)');
-xlabel('N-->');
-ylabel('amplitude');
 subplot(3,1,3);
 stem(x3_n);
 title("Linear convolution using Circular");
 xlabel("N-->");
 ylabel("Amplitude");
-
