@@ -16,7 +16,7 @@ for m=p-1:N1-1
 end
 
 for n=0:p-2
-    z(n+1)=y(n+1)+y(N-n);
+    z(n+1)=y(n+1)+y(N+n-2);
 end
 
 disp(z);
