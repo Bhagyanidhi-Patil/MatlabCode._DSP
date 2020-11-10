@@ -1,0 +1,50 @@
+clc;
+clear all;
+close all;
+
+x=input('Enter the sequence')
+N=length(x);
+for k = 0:N-1
+    for n = 0:N-1
+        W(k+1,n+1) = exp(j*2*pi*k*n/N)
+    end
+end
+xn = x*W/N
+n=0:N-1;
+
+subplot(3,2,1);
+stem(n,real(x));
+title('Magnitude of Input sequence');
+xlabel('n');
+ylabel('Amplitude');
+subplot(3,2,2);
+stem(n,imag(x));
+title('Phase of Input sequence');
+xlabel('n');
+ylabel('Amplitude');
+
+subplot(3,2,3);
+stem(n,real(xn));
+title('Magnitude spectrum of IDFT');
+xlabel('n');
+ylabel('Amplitude');
+
+subplot(3,2,4);
+stem(n,imag(xn));
+title('Phase spectrum  of IDFT ');
+xlabel('n');
+ylabel('Amplitude');
+subplot(3,2,5);
+plot(abs(fft(xn)));
+title("magnitude spectrum"); 
+
+subplot(3,2,6);
+plot(angle(fft(xn)));
+title("phase spectrum"); 
+
+%with built in 
+
+N=length(x);
+xk=ifft(x);
+disp("IDFT using builtin function");
+xk
