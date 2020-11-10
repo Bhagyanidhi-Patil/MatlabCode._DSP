@@ -1,31 +1,52 @@
-clc;
-close all;
-clear all;
-x=input('Enter the sequence x= ');
-N=input('Enter the length of the DFT N= ');
-len=length(x);
-if N>len
-    x=[x zeros(1,N-len)];
-elseif N<len
-    x=x(1:N);
+clc
+clear all
+close all
+
+x=input('Enter the sequence')
+N=length(x);
+for k = 0:N-1
+    for n = 0:N-1
+        W(k+1,n+1) = exp(-j*2*pi*k*n/N)
+    end
 end
-i=sqrt(-1);
-w=exp(-i*2*pi/N);
-n=0:(N-1);
-k=0:(N-1);
-nk=n'*k;
-W=w.^nk;
-X=x*W;
-disp(X);
-subplot(211);
-stem(k,abs(X));
-title('Magnitude Spectrum');
-xlabel('Discrete frequency');
+xk = x*W
+
+
+n=0:N-1;
+subplot(3,2,1);
+stem(n,real(x));
+title('Magnitude of Input sequence');
+xlabel('n');
 ylabel('Amplitude');
-grid on;
-subplot(212);
-stem(k,angle(X));
-title('Phase Spectrum');
-xlabel('Discrete frequency');
-ylabel('Phase Angle');
-grid on;
+subplot(3,2,2);
+stem(n,imag(x));
+title('Phase of Input sequence');
+xlabel('n');
+ylabel('Amplitude');
+
+subplot(3,2,3);
+stem(n,real(xk));
+title('Magnitude of dft');
+xlabel('n');
+ylabel('Amplitude');
+
+subplot(3,2,4);
+stem(n,imag(xk));
+title('Phase of dft');
+xlabel('n');
+ylabel('Amplitude');
+
+subplot(3,2,5);
+plot(abs(fft(xk)));
+title("magnitude spectrum"); 
+
+subplot(3,2,6);
+plot(angle(fft(xk)));
+title("phase spectrum"); 
+
+%with built in 
+
+N=length(x);
+xk=fft(x);
+disp("DFT using builtin function");
+xk
