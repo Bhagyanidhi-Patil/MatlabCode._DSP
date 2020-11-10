@@ -1,29 +1,38 @@
-x=input('Enter the sequence : ')
-N=length(x)
-n=0:N-1
-K=0:N-1
-wn=exp(-j*2*pi/N)
-nK=n'*K
-wNnK=wn.^nK
-df=x*wNnK
-subplot(3,1,1)
-stem(x,abs(df))
-title('DTFT')
-xlabel('K')
-ylabel('Magnitude')
-subplot(3,1,2)
-stem(x,angle(df))
-title('DTFT')
-xlabel('K')
-ylabel('phase')
-wn=exp(j*2*pi/N)
-nK=n'*K
-wNnK=wn.^nK
-inversdf=(x*wNnK)/N
-subplot(3,1,3)
-stem(x,abs(inversdf))
-title('Inverse DTFT')
-xlabel('N')
-ylabel('Magnitude')
+clc;
+close all;
+clear all;
 
+xn=input("Enter the sequence:");
+N=length(xn);
+n=0:N-1;
+W=-pi:0.01:pi;
+M=length(W);
 
+for i=1:M
+    X(i)=0;
+    for k=1:N
+        X(i)=X(i)+xn(k).*exp(-1i.*W(i).*n(k));
+    end
+end
+disp(X);
+subplot(2,2,1);
+stem(n,xn);
+title("Input sequence");
+xlabel("n");
+ylabel("Amplitude");
+
+subplot(2,2,2);
+plot(W,X);
+title("DTFT");
+xlabel("n");
+ylabel("Amplitude");
+subplot(2,2,3);
+plot(W,abs(X));
+title("Magnitude spectrum");
+xlabel("n");
+ylabel("Amplitude");
+subplot(2,2,4);
+plot(W,angle(X));
+title("Phase spectrum");
+xlabel("n");
+ylabel("Amplitude");
