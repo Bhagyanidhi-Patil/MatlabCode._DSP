@@ -1,0 +1,40 @@
+clc;
+close all;
+clear all;
+
+fm=input("Enter the frequency ");
+t=0:0.1:6;
+n=0:0.1:6;
+x=sin(2*pi*fm*t);
+
+
+fs1=2*fm;
+y1=sin(2*pi*fm*n/fs1);
+disp("Perfect sampling");
+fs1
+fs2=1*fm;
+y2=sin(2*pi*fm*n/fs2);
+disp("Under sampling");
+fs2
+fs3=5*fm;
+y3=sin(2*pi*fm*n/fs3);
+disp("Over sampling");
+fs3
+n1= fftshift(fft(x));
+n2= fftshift(fft(y1));
+n3= fftshift(fft(y2));     %rearranges a Fourier transform X by shifting
+                           %the zero-frequency component to the center of the array
+n4= fftshift(fft(y3));
+
+subplot(2,2,1)
+plot(t,abs(n1))
+title("Message signal")
+subplot(2,2,2)
+plot(n,abs(n2))
+title("perfect sampling")
+subplot(2,2,3)
+plot(n,abs(n3))
+title("under sampling")
+subplot(2,2,4)
+plot(n,abs(n4))
+title("over sampling")
