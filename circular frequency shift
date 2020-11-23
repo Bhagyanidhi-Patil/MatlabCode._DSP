@@ -1,79 +1,72 @@
 clear all;
 close all;
-clc
+clc;
 
-s = input("Enter the sequence: ");
-m = input("Enter the number of shifts: ");
+sequence= input("Enter the sequence x(n): ");
+m = input("Enter the value (m) to be shifted: ");
 
-N = length(s);
+N = length(sequence);
+widthOfLine=1;
 
 n = 1:N;
-k = n;
-k1 = n - 1;
-widthOfLine = 1;
+k1 = n;
 
-x(n) = s;
+x(n) = sequence;
 
-DFT(k) = fft(x(n));
-disp("Input Sequence:");
-disp(s);
-disp("DFT of the input sequence is:");
-disp(DFT(k));
+X(k1) = fft(x);
 
-shiftedDFT(k) = fft(x(circshift(n, m)));
-disp("Circularly Shifted Signal:");
-disp(x(circshift(n, m)));
-disp("DFT of circularly shifted signal:");
-disp(shiftedDFT);
+x1(n) = x.*exp(i*2*pi*m*(n-1)/N);
+X1(k1) = fft(x1(n));
 
-shiftedUsingProperty(k) = DFT * (exp(-i * 2 * pi * (k - 1) * m / N) .* eye(N));
-disp("DFT of circularly shifted signal using property:");
-disp(shiftedUsingProperty);
+X2(k1) = circshift(X, m);
 
-% DFT of signal
+disp("DFT of x(n) is: ");
+disp(X);
+
+disp("Circularly Shifted X(l-k)N: ");
+disp(X2);
+
+disp("DFT of x(n)*e^(j*2*pi*m*n/N) is: ");
+disp(X1);
+
+k1 = 0:N-1;
+
 
 subplot(3, 2, 1);
-localY = abs(DFT.');
+localY = abs(X);
 stem(k1, localY, "lineWidth", widthOfLine);
 setAxisLimits(axis);
-setPlotAttributes("n \rightarrow", "Amplitude", "DFT of $$ x(n) $$");
-grid on;
+setPlotAttributes("k \rightarrow", "Amplitude", "DFT of $$ x(n) \rightarrow X(k) $$");
+
 
 subplot(3, 2, 2);
-localY = angle(round(DFT.', 5)) * 180 / pi;
+localY = angle(round(X,5))*180/pi;
 stem(k1, localY, "lineWidth", widthOfLine);
 setAxisLimits(axis);
-setPlotAttributes("n \rightarrow", "Phase (°)", "DFT of $$ x(n) $$");
-grid on;
+setPlotAttributes("k \rightarrow", "Phase (°)", "DFT of $$ x(n) \rightarrow X(k) $$");
 
-% DFT of shifted signal
 
 subplot(3, 2, 3);
-localY = abs(shiftedDFT.');
+localY = abs(X1);
 stem(k1, localY, "lineWidth", widthOfLine);
 setAxisLimits(axis);
-setPlotAttributes("n \rightarrow", "Amplitude", "DFT of $$ x(n+m) $$");
-grid on;
-
+setPlotAttributes("k \rightarrow", "Amplitude", "Circularly Shifted DFT signal by $$ m \rightarrow X(m-k)_N $$")
 subplot(3, 2, 4);
-localY = angle(round(shiftedDFT.', 5)) * 180 / pi;
+localY = angle(round(X1,5))*180/pi;
 stem(k1, localY, "lineWidth", widthOfLine);
 setAxisLimits(axis);
-setPlotAttributes("n \rightarrow", "Phase (°)", "DFT of $$ x(n+m) $$");
-grid on;
+setPlotAttributes("k \rightarrow", "Phase (°)", "Circularly Shifted DFT signal by $$ m \rightarrow X(m-k)_N $$");
 
-% DFT of shifted signal using property
 
 subplot(3, 2, 5);
-localY = abs(shiftedUsingProperty.');
+localY = abs(X2);
 stem(k1, localY, "lineWidth", widthOfLine);
 setAxisLimits(axis);
-setPlotAttributes("n \rightarrow", "Amplitude", "DFT of $$ x(n+m) $$ using property");
-grid on;
+setPlotAttributes("k \rightarrow", "Amplitude", "DFT of $$ x(n)*e^(j*2*pi*m*n/N) \rightarrow X(m-k)_N $$");
+
 
 subplot(3, 2, 6);
-localY = angle(round(shiftedUsingProperty.', 5)) * 180 / pi;
+localY = angle(round(X2,5))*180/pi;
 stem(k1, localY, "lineWidth", widthOfLine);
 setAxisLimits(axis);
-setPlotAttributes("n \rightarrow", "Phase (°)", "DFT of $$ x(n+m) $$ using property");
-grid on;
+setPlotAttributes("k \rightarrow", "Phase (°)", "DFT of $$ x(n)*e^{(j*2*pi*m*n/N)} \rightarrow X(m-k)_N $$");
