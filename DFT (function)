@@ -1,0 +1,11 @@
+function DFT =dft(inputseq)
+DFT = [];
+xx = 0;
+N = length(inputseq)
+for k=1:N
+    for nvalues=1:N
+        xx=xx+inputseq(nvalues)*exp(j*pi*2*(nvalues-1)*k/N);
+    end
+    DFT = [xx DFT];
+    xx =0;  
+end
